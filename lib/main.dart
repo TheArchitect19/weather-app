@@ -5,14 +5,16 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geolocator_android/geolocator_android.dart';
+import 'package:geolocator_apple/geolocator_apple.dart';
 
 void main() {
   runApp(
-    // DevicePreview(
-    //   enabled: !kReleaseMode,
-    //   builder: (context) => const MyApp(), // Wrap your app
-    // ),
-    const MyApp()
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
+    // const MyApp()
   );
 }
 
@@ -52,15 +54,14 @@ Future<Position> _determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
 
-  // Test if location services are enabled.
-  print("here");
+  // Test if location services are enabled
+ 
   serviceEnabled = true;
   try {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
   } catch (e) {
     print(e);
   }
-
   if (!serviceEnabled) {
     // Location services are not enabled don't continue
     // accessing the position and request users of the
@@ -70,6 +71,7 @@ Future<Position> _determinePosition() async {
 
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
+    print("permission");
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
       // Permissions are denied, next time you could try

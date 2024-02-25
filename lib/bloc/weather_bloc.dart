@@ -13,8 +13,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       // TODO: implement event handler
       emit(WeatherLoading());
       try {
-        WeatherFactory wf = WeatherFactory(API_KEY, language: Language.ENGLISH);
-
+        WeatherFactory wf = WeatherFactory(API_KEY , language: Language.ENGLISH);
         Weather weather = await wf.currentWeatherByLocation(
           event.position.latitude,
           event.position.longitude,
@@ -22,9 +21,10 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         // print("here");
         print(weather);
         emit(WeatherSuccess(weather));
-      } catch (e) {
+      } 
+      catch (e) { 
         emit(WeatherFailure());
       }
     });
-  }
+  } 
 }
